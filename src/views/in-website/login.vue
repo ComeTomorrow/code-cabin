@@ -1,22 +1,51 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { FormType } from './types';
+import { useUserStore } from "@/stores/modules/user";
+
 
 // 要操作到的元素
 const translateQuantity = ref({transform: 'translateX(0%)'})
-
 const hiddenStatus = ref(FormType.Login)
+const loading = ref(false); // 按钮loading
+const userStore = useUserStore();
 
 // 去注册按钮点击事件
-const goRegister = () => {
+const goRegister = ():void => {
     translateQuantity.value = {transform: 'translateX(80%)'}
     hiddenStatus.value = FormType.Register
 }
 
 // 去登录按钮点击事件
-const goLogin = () => {
+const goLogin = ():void => {
     translateQuantity.value = {transform: 'translateX(0%)'}
     hiddenStatus.value = FormType.Login
+}
+
+const handleLogin = ():void => {
+    loading.value = true;
+    userStore.login(loginData.value)
+    .then(() => {
+    const query: LocationQuery = route.query;
+    const redirect = (query.redirect as LocationQueryValue) ?? "/";
+    const otherQueryParams = Object.keys(query).reduce(
+        (acc: any, cur: string) => {
+        if (cur !== "redirect") {
+            acc[cur] = query[cur];
+        }
+        return acc;
+        },
+        {}
+    );
+
+    router.push({ path: redirect, query: otherQueryParams });
+    })
+    .catch(() => {
+    getCaptcha();
+    })
+    .finally(() => {
+    loading.value = false;
+    });
 }
 </script>
 
@@ -28,7 +57,7 @@ const goLogin = () => {
                 <h1>login</h1>
                 <input type="text" placeholder="用户名">
                 <input type="password" placeholder="密码">
-                <button>登录</button>
+                <button @click="handleLogin">登录</button>
             </div>
             <!-- 注册 -->
             <div class="register-box" v-else>
