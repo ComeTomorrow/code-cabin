@@ -1,7 +1,8 @@
 import axios, { Axios, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 // import { Notification, MessageBox, Message, Loading } from 'element-ui'
 // import store from '@/modules/stores'
-import { getToken } from '@/utils/storage'
+import { getLocalStorage } from '../../utils/storage'
+import { TOKEN_KEY } from '../constant'
 // import errorCode from '@/utils/errorCode'
 // import { tansParams, blobValidate } from "@/utils/ruoyi";
 // import cache from '@/plugins/cache'
@@ -15,12 +16,10 @@ axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: process.env.VUE_APP_BASE_API,
+  baseURL: import.meta.env.VITE_APP_BASE_API,
   // 超时
   timeout: 10000
 })
-
-const TokenKey = 'accessToken'
 
 // 请求拦截器
 service.interceptors.request.use(
@@ -29,8 +28,8 @@ service.interceptors.request.use(
     const isToken = (config.headers || {}).isToken === false
     // 是否需要防止数据重复提交
     const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
-    if (getToken(TokenKey) && !isToken) {
-      config.headers['Authorization'] = 'Bearer ' + getToken(TokenKey) // 让每个请求携带自定义token 请根据实际情况自行修改
+    if (getLocalStorage(TOKEN_KEY) && !isToken) {
+      config.headers['Authorization'] = 'Bearer ' + getLocalStorage(TOKEN_KEY) // 让每个请求携带自定义token 请根据实际情况自行修改
     }
     // // get请求映射params参数
     // if (config.method === 'get' && config.params) {
@@ -119,7 +118,7 @@ service.interceptors.response.use(
   },
   (error: any) => {
     if (error.response.data) {
-      let { code, msg } = error.response.data;
+      // let { code, msg } = error.response.data;
       // if (code == "Network Error") {
       //   message = "后端接口连接异常";
       // } else if (message.includes("timeout")) {

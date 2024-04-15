@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory} from "vue-router";
 // 1. 定义路由组件.
 // 也可以从其他文件导入
 
@@ -21,5 +21,12 @@ const router =  createRouter({
     history: createWebHistory(),
     routes, // `routes: routes` 的缩写
 })
+
+/**
+ * 重置路由
+ */
+export const resetRouter = ()=> {
+    router.replace({ path: "/login" });
+}
 
 export default router

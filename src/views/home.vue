@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCounterStore } from "../stores/counter"
+import { useCounterStore } from "../modules/pinia/stores/counter"; 
 import login from "./in-website/login.vue";
 
 const counter = useCounterStore()
@@ -11,4 +11,4 @@ i am home
 
   <login></login>
 
-</template>
+</template>../modules/pinia/stores/counter

@@ -1,4 +1,4 @@
-import request from "@/modules/https";
+import request from "../../modules/https";
 import { AxiosPromise } from "axios";
 import { LoginData, LoginResult } from "./types";
 
