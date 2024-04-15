@@ -11,4 +11,4 @@ i am home
 
   <login></login>
 
-</template>../modules/pinia/stores/counter
+</template>

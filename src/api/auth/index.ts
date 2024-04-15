@@ -10,13 +10,13 @@ import { LoginData, LoginResult } from "./types";
  */
 export function loginApi(data: LoginData): AxiosPromise<LoginResult> {
   const formData = new FormData();
-  formData.append("mobile", data.username);
+  formData.append("mobile", data.mobile);
   formData.append("password", data.password);
 //   formData.append("captchaId", data.captchaId as string);
 //   formData.append("captchaCode", data.captchaCode as string);
 //   formData.append("grant_type", "password");
   return request({
-    url: "/api/v1/auth/captcha/"+data.username,
+    url: "/api/v1/auth/captcha/" + data.mobile,
     method: "get",
     // data: formData,
     // headers: {
