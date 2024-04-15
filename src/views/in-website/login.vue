@@ -13,7 +13,7 @@ const hiddenStatus = ref(FormType.Login)
 const loading = ref(false); // 按钮loading
 const userStore = useUserStore();
 const loginData = ref<LoginData>({
-    mobile: "admin",
+    mobile: "15153247815",
     password: "123456",
 });
 const route = useRoute();
