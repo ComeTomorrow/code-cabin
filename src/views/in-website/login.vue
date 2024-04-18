@@ -36,19 +36,19 @@ const handleLogin = (): void => {
     loading.value = true;
     userStore.login(loginData.value)
         .then(() => {
-            const query = route.query;
-            const redirect = (query.redirect as LocationQueryValue) ?? "/";
-            const otherQueryParams = Object.keys(query).reduce(
-                (acc: any, cur: string) => {
-                    if (cur !== "redirect") {
-                        acc[cur] = query[cur];
-                    }
-                    return acc;
-                },
-                {}
-            );
-            console.log('ok')
-            router.push({ path: redirect, query: otherQueryParams });
+            // const query = route.query;
+            // const redirect = (query.redirect as LocationQueryValue) ?? "/";
+            // const otherQueryParams = Object.keys(query).reduce(
+            //     (acc: any, cur: string) => {
+            //         if (cur !== "redirect") {
+            //             acc[cur] = query[cur];
+            //         }
+            //         return acc;
+            //     },
+            //     {}
+            // );
+            // console.log('ok')
+            // router.push({ path: redirect, query: otherQueryParams });
         })
         .catch(() => {
             // getCaptcha();
