@@ -14,7 +14,7 @@ const loading = ref(false); // 按钮loading
 const userStore = useUserStore();
 const loginData = ref<LoginData>({
     mobile: "15153247815",
-    password: "123456",
+    password: "bcrypt 123456",
 });
 const route = useRoute();
 
