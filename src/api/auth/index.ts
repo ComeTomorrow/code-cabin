@@ -10,7 +10,7 @@ import { LoginData, LoginResult } from "./types";
  */
 export function loginApi(data: LoginData): AxiosPromise<LoginResult> {
   const formData = new FormData();
-  formData.append("username", data.mobile);
+  formData.append("username", data.username);
   formData.append("password", data.password);
   console.log(data)
 //   formData.append("captchaId", data.captchaId as string);

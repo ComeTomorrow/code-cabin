@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { ref } from 'vue';
 import { FormType } from './types';
 import { useUserStore } from '../../modules/pinia/stores/user';
-import { LocationQuery, LocationQueryValue, useRoute } from "vue-router";
-import router from "../../modules/router"
+import { LocationQuery, LocationQueryValue, useRoute } from 'vue-router';
+import router from '../../modules/router'
 import { LoginData } from '../../api/auth/types';
 
 
@@ -12,9 +12,9 @@ const translateQuantity = ref({ transform: 'translateX(0%)' })
 const hiddenStatus = ref(FormType.Login)
 const loading = ref(false); // 按钮loading
 const userStore = useUserStore();
-const loginData = ref<LoginData>({
-    mobile: "15153247815",
-    password: "bcrypt 123456",
+const loginForm = ref({
+    username: null,
+    password: null,
 });
 const route = useRoute();
 
@@ -31,16 +31,14 @@ const goLogin = (): void => {
 }
 
 const handleLogin = (): void => {
-    console.log('ok')
-
     loading.value = true;
-    userStore.login(loginData.value)
+    userStore.login(loginForm.value)
         .then(() => {
             // const query = route.query;
-            // const redirect = (query.redirect as LocationQueryValue) ?? "/";
+            // const redirect = (query.redirect as LocationQueryValue) ?? '/';
             // const otherQueryParams = Object.keys(query).reduce(
             //     (acc: any, cur: string) => {
-            //         if (cur !== "redirect") {
+            //         if (cur !== 'redirect') {
             //             acc[cur] = query[cur];
             //         }
             //         return acc;
@@ -60,43 +58,45 @@ const handleLogin = (): void => {
 </script>
 
 <template>
-    <div class="container">
-        <div class="form-box" :style="translateQuantity">
+    <div class='container'>
+        <div class='form-box' :style='translateQuantity'>
             <!-- 登录 -->
-            <div class="login-box" v-if="hiddenStatus == FormType.Login">
+            <div class='login-box' v-if='hiddenStatus == FormType.Login'>
                 <h1>login</h1>
-                <input type="text" placeholder="用户名">
-                <input type="password" placeholder="密码">
-                <button @click="handleLogin">登录</button>
+                <a-input v-model="loginForm.username" placeholder="用户名" allow-clear />
+                <!-- <input type='text' placeholder='用户名' v-model=''> -->
+                <a-input-password v-model:value="loginForm.password" placeholder="密码" allow-clear/>
+                <!-- <input type='password' placeholder='密码' v-model='loginForm.password'> -->
+                <button @click='handleLogin'>登录</button>
             </div>
             <!-- 注册 -->
-            <div class="register-box" v-else>
+            <div class='register-box' v-else>
                 <h1>register</h1>
-                <input type="text" placeholder="用户名">
-                <input type="email" placeholder="邮箱">
-                <input type="password" placeholder="密码">
-                <input type="password" placeholder="确认密码">
-                <button @click="handleLogin">注册</button>
+                <input type='text' placeholder='用户名'>
+                <input type='email' placeholder='邮箱'>
+                <input type='password' placeholder='密码'>
+                <input type='password' placeholder='确认密码'>
+                <button @click='handleLogin'>注册</button>
             </div>
         </div>
-        <div class="con-box left">
+        <div class='con-box left'>
             <h2>欢迎来到<span>宠物之家</span></h2>
             <p>快来领取你的专属<span>宠物</span>吧</p>
-            <img src="../../assets/images/1.png" alt="">
+            <img src='../../assets/images/1.png' alt=''>
             <p>已有账号</p>
-            <button @click="goLogin">去登录</button>
+            <button @click='goLogin'>去登录</button>
         </div>
-        <div class="con-box right">
+        <div class='con-box right'>
             <h2>欢迎来到<span>宠物之家</span></h2>
             <p>快来看看你的可爱<span>宠物</span>吧</p>
-            <img src="../../assets/images/2.png" alt="">
+            <img src='../../assets/images/2.png' alt=''>
             <p>没有账号？</p>
-            <button @click="goRegister">去注册</button>
+            <button @click='goRegister'>去注册</button>
         </div>
     </div>
 </template>
 
-<style scoped lang="less">
+<style scoped lang='less'>
 * {
     /* 初始化 */
     margin: 0;

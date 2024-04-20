@@ -5,7 +5,7 @@ export interface LoginData {
     /**
      * 用户名
      */
-    mobile: string;
+    username: string;
     /**
      * 密码
      */
