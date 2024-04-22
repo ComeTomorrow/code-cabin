@@ -63,9 +63,9 @@ const handleLogin = (): void => {
             <!-- 登录 -->
             <div class='login-box' v-if='hiddenStatus == FormType.Login'>
                 <h1>login</h1>
-                <a-input v-model="loginForm.username" placeholder="用户名" allow-clear />
+                <a-input v-model:value='loginForm.username' placeholder='用户名' allow-clear />
                 <!-- <input type='text' placeholder='用户名' v-model=''> -->
-                <a-input-password v-model:value="loginForm.password" placeholder="密码" allow-clear/>
+                <a-input-password v-model:value='loginForm.password' placeholder='密码' allow-clear/>
                 <!-- <input type='password' placeholder='密码' v-model='loginForm.password'> -->
                 <button @click='handleLogin'>登录</button>
             </div>
