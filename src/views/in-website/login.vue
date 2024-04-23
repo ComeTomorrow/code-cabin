@@ -55,6 +55,20 @@ const handleLogin = (): void => {
             loading.value = false;
         });
 }
+
+const handleRegister = (): void => {
+    loading.value = true;
+    userStore.register(loginForm.value)
+        .then(() => {
+            
+        })
+        .catch(() => {
+            // getCaptcha();
+        })
+        .finally(() => {
+            loading.value = false;
+        });
+}
 </script>
 
 <template>
@@ -73,10 +87,10 @@ const handleLogin = (): void => {
             <div class='register-box' v-else>
                 <h1>register</h1>
                 <input type='text' placeholder='用户名'>
-                <input type='email' placeholder='邮箱'>
+                <input type='email' placeholder='手机'>
                 <input type='password' placeholder='密码'>
-                <input type='password' placeholder='确认密码'>
-                <button @click='handleLogin'>注册</button>
+                <input type='confirmPassword' placeholder='确认密码'>
+                <button @click='handleRegister'>注册</button>
             </div>
         </div>
         <div class='con-box left'>

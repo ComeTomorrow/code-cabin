@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { loginApi, logoutApi } from '../../../api/auth';
+import { registerApi, loginApi, logoutApi } from '../../../api/auth';
 // import { getUserInfoApi } from '@/api/system/user';
 import { resetRouter } from '../../router';
 // import { store } from '@/store';
@@ -25,7 +25,7 @@ export const useUserStore = defineStore('user', () => {
       loginApi(loginData)
         .then(({ data } : any) => {
           const { token_type, access_token } = data;
-          setLocalStorage(TOKEN_KEY, token_type + SPACE_CHARACTER + access_token)   // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
+          setLocalStorage(TOKEN_KEY, SPACE_CHARACTER + access_token)   // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
           resolve();
         })
         .catch((error: any) => {
@@ -56,6 +56,21 @@ export const useUserStore = defineStore('user', () => {
   //   });
   // }
 
+  // user register
+  function register(loginData: LoginData) {
+    return new Promise<void>((resolve, reject) => {
+      registerApi(loginData)
+        .then(() => {
+          setLocalStorage(TOKEN_KEY, '')
+          location.reload(); // 清空路由
+          resolve();
+        })
+        .catch((error: any) => {
+          reject(error);
+        });
+    });
+  }
+
   // user logout
   function logout() {
     return new Promise<void>((resolve, reject) => {
@@ -74,7 +89,7 @@ export const useUserStore = defineStore('user', () => {
   // remove token
   function resetToken() {
     return new Promise<void>((resolve) => {
-      localStorage.setItem('accessToken', '');
+      localStorage.setItem(TOKEN_KEY, '');
       resetRouter();
       resolve();
     });

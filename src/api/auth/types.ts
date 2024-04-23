@@ -11,9 +11,13 @@ export interface LoginData {
      */
     password: string;
     /**
+     * 用户昵称
+     */
+    nickName: string;
+    /**
      * 授权类型
      */
-    grant_type?: string;
+    grantType?: string;
     /**
      * 验证码Code
      */
