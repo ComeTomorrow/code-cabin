@@ -9,12 +9,17 @@ const routes =[
     {
         name: '首页',
         path:'/',
-        component: ()=> import('../../views/home.vue'),
+        component: ()=> import('../../views/Home.vue'),
     },
     {
         name: '登录',
         path:'/login',
-        component: ()=> import('../../views/in-website/login.vue'),
+        component: ()=> import('../../views/in-website/Login.vue'),
+    },
+    {
+        name: '编辑',
+        path:'/md',
+        component: ()=> import('../../views/creative/EditArticle.vue'),
     }
 ]
 

@@ -9,13 +9,16 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@kangc/v-md-editor": "^2.3.18",
     "ant-design-vue": "^4.1.2",
     "axios": "^1.6.8",
+    "markdown-it": "^14.1.0",
     "path": "^0.12.7",
     "vue": "^3.4.19",
     "vue-router": "^4.3.0"
   },
   "devDependencies": {
+    "@types/markdown-it": "^14.1.1",
     "@vitejs/plugin-vue": "^5.0.4",
     "less": "^4.2.0",
     "less-loader": "^12.2.0",
