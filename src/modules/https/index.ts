@@ -3,6 +3,7 @@ import axios, { Axios, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 // import store from '@/modules/stores'
 import { getLocalStorage } from '../../utils/storage'
 import { TOKEN_KEY, HEADER_TOKEN } from '../constant'
+import { message } from 'ant-design-vue';
 // import errorCode from '@/utils/errorCode'
 // import { tansParams, blobValidate } from "@/utils/ruoyi";
 // import cache from '@/plugins/cache'
@@ -12,11 +13,12 @@ import { TOKEN_KEY, HEADER_TOKEN } from '../constant'
 // 是否显示重新登录
 export let isRelogin = { show: false };
 
-axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
   baseURL: import.meta.env.VITE_APP_API_URL,
+  // 请求头部
+  headers: {'Content-Type': 'application/json;charset=UTF-8'},
   // 超时
   timeout: 10000
 })
@@ -117,17 +119,15 @@ service.interceptors.response.use(
     return Promise.reject(new Error(msg || "Error"));
   },
   (error: any) => {
-    if (error.response.data) {
-      // let { code, msg } = error.response.data;
-      // if (code == "Network Error") {
-      //   message = "后端接口连接异常";
-      // } else if (message.includes("timeout")) {
-      //   message = "系统接口请求超时";
-      // } else if (message.includes("Request failed with status code")) {
-      //   message = "系统接口" + message.substr(message.length - 3) + "异常";
-      // }
-      // Message({ msg: msg, type: 'error', duration: 5 * 1000 })
+    let errMsg = error;
+    if (errMsg.message == "Network Error") {
+      errMsg.message = "后端接口连接异常";
+    } else if (errMsg.message.includes("timeout")) {
+      errMsg.message = "系统接口请求超时";
+    } else if (errMsg.message.includes("Request failed with status code")) {
+      errMsg.message = "系统接口" + errMsg.message.substr(errMsg.message.length - 3) + "异常";
     }
+    message.error(errMsg.message, 0.5);
     return Promise.reject(error)
   }
 )

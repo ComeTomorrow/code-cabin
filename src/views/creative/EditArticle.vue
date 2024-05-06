@@ -5,6 +5,8 @@ import { saveArticle } from '../../api/creative'
 import MarkdownEditor from '../../components/MarkdownEditor.vue'
 import htmlBlocks from 'markdown-it/lib/common/html_blocks.mjs';
 
+const loading = ref(true);
+
 const headerStyle: CSSProperties = {
     textAlign: 'center',
     color: '#fff',
@@ -32,7 +34,13 @@ const getContent = (value: string): void => {
 }
 
 const saveDraft = (): void => {
-    saveArticle(data)
+    saveArticle(data.value).then(res => {
+        console.log(res)
+    }).catch(() => {
+        loading.value = false;
+    }).finally(() => {
+        loading.value = false;
+    });
 }
 
 const publishArticles = (): void => {
