@@ -1,20 +1,61 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
+import { ref, h, computed, CSSProperties } from 'vue'
+import { LeftOutlined } from '@ant-design/icons-vue';
+import { saveArticle } from '../../api/creative'
 import MarkdownEditor from '../../components/MarkdownEditor.vue'
+import htmlBlocks from 'markdown-it/lib/common/html_blocks.mjs';
 
+const headerStyle: CSSProperties = {
+    textAlign: 'center',
+    color: '#fff',
+    height: 64,
+    //   paddingInline: 50,
+    lineHeight: '64px',
+    backgroundColor: '#efefef',
+    position: 'fixed', 
+    zIndex: 1, 
+    width: '100%'
+};
+
+const data = ref({
+    title: '',
+    content: '',
+    markdownContent: ''
+})
+
+const getMarkdownContent = (value: string): void => {
+    data.markdownContent = value;
+}
+
+const getContent = (value: string): void => {
+    data.content = value;
+}
+
+const saveDraft = (): void => {
+    saveArticle(data)
+}
+
+const publishArticles = (): void => {
+    // saveArticle()
+}
 </script>
 
 <template>
     <a-layout>
-        <a-layout-header :style="{ position: 'fixed', zIndex: 1, width: '100%' }">
-            <div class="logo"></div>
-            <a-button type="primary">Primary Button</a-button>
+        <a-layout-header :style="headerStyle">
+            <a-button type="text" :icon="h(LeftOutlined)">文章管理</a-button>
+            <a-input class="title-input" v-model:value="data.title" placeholder="请输入文章标题（5~100个字）" :maxlength="100"/>
+            <a-button @click="saveDraft">保存草稿</a-button>
+            <a-button type="primary" @click="publishArticles">发布文章</a-button>
         </a-layout-header>
         <a-layout-content :style="{ marginTop: '64px' }">
-            <MarkdownEditor />
+            <MarkdownEditor @update:textValue="getMarkdownContent" @update:htmlValue="getContent" :content="data.content"/>
         </a-layout-content>
     </a-layout>
 </template>
 
 <style lang="less" scoped>
+.title-input{
+    width: 600px;
+}
 </style>
