@@ -4,6 +4,8 @@ import axios, { Axios, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import { getLocalStorage } from '../../utils/storage'
 import { TOKEN_KEY, HEADER_TOKEN } from '../constant'
 import { message } from 'ant-design-vue';
+
+
 // import errorCode from '@/utils/errorCode'
 // import { tansParams, blobValidate } from "@/utils/ruoyi";
 // import cache from '@/plugins/cache'
@@ -13,12 +15,11 @@ import { message } from 'ant-design-vue';
 // 是否显示重新登录
 export let isRelogin = { show: false };
 
+axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: import.meta.env.VITE_APP_API_URL,
-  // 请求头部
-  headers: {'Content-Type': 'application/json;charset=UTF-8'},
+  baseURL: '',
   // 超时
   timeout: 10000
 })
@@ -91,18 +92,19 @@ service.interceptors.response.use(
     if (response.request.responseType ===  'blob' || response.request.responseType ===  'arraybuffer') {
       return response.data
     }
-    // if (code === 401) {
-    //   if (!isRelogin.show) {
-    //     isRelogin.show = true;
-    //     MessageBox.confirm('登录状态已过期，您可以继续留在该页面，或者重新登录', '系统提示', { confirmButtonText: '重新登录', cancelButtonText: '取消', type: 'warning' }).then(() => {
-    //       isRelogin.show = false;
-    //       store.dispatch('LogOut').then(() => {
-    //         location.href = '/index';
-    //       })
-    //   }).catch(() => {
-    //     isRelogin.show = false;
-    //   });
-    // }
+    if (code === 401) {
+      if (!isRelogin.show) {
+        isRelogin.show = true;
+        message.error('登录状态已过期，您可以继续留在该页面，或者重新登录')
+        isRelogin.show = false;
+        // store.dispatch('LogOut').then(() => {
+        //     location.href = '/index';
+        //     })
+        // }).catch(() => {
+        //   isRelogin.show = false;
+        // });
+      }
+    }
     //   return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
     // } else if (code === 500) {
     //   Message({ message: msg, type: 'error' })
@@ -119,15 +121,17 @@ service.interceptors.response.use(
     return Promise.reject(new Error(msg || "Error"));
   },
   (error: any) => {
-    let errMsg = error;
-    if (errMsg.message == "Network Error") {
-      errMsg.message = "后端接口连接异常";
-    } else if (errMsg.message.includes("timeout")) {
-      errMsg.message = "系统接口请求超时";
-    } else if (errMsg.message.includes("Request failed with status code")) {
-      errMsg.message = "系统接口" + errMsg.message.substr(errMsg.message.length - 3) + "异常";
+    if (error.response.data) {
+      let { code, msg } = error.response.data;
+      if (code == "Network Error") {
+        msg = "后端接口连接异常";
+      } else if (msg.includes("timeout")) {
+        msg = "系统接口请求超时";
+      } else if (msg.includes("Request failed with status code")) {
+        msg = "系统接口" + msg.substr(msg.length - 3) + "异常";
+      }
+      message.info(msg);
     }
-    message.error(errMsg.message, 0.5);
     return Promise.reject(error)
   }
 )

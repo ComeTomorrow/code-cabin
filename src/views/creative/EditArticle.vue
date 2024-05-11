@@ -4,6 +4,8 @@ import { LeftOutlined } from '@ant-design/icons-vue';
 import { saveArticle } from '../../api/creative'
 import MarkdownEditor from '../../components/MarkdownEditor.vue'
 import htmlBlocks from 'markdown-it/lib/common/html_blocks.mjs';
+import router from '../../modules/router';
+import { message } from 'ant-design-vue';
 
 const loading = ref(true);
 
@@ -20,22 +22,37 @@ const headerStyle: CSSProperties = {
 };
 
 const data = ref({
+    id: null,
     title: '',
     content: '',
     markdownContent: ''
 })
 
 const getMarkdownContent = (value: string): void => {
-    data.markdownContent = value;
+    data.value.markdownContent = value;
 }
 
 const getContent = (value: string): void => {
-    data.content = value;
+    data.value.content = value;
 }
 
 const saveDraft = (): void => {
+    if(router.currentRoute.value.query){
+        data.value.id = router.currentRoute.value.query['articleId'];
+    }
     saveArticle(data.value).then(res => {
-        console.log(res)
+        if(res.data != null){
+            data.value.id = res.data
+            message.success('保存成功')
+            router.push(
+                {
+                    path: '/md',
+                    query: {
+                        articleId: data.value.id,
+                    },
+                }
+            )
+        }
     }).catch(() => {
         loading.value = false;
     }).finally(() => {

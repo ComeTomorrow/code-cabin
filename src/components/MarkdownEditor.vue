@@ -16,18 +16,28 @@ interface EmitEvent {
     (e: 'update:textValue', params: string): void,
     (e: 'update:htmlValue', params: string): void
 }
-const props = withDefaults(defineProps<Props>(), {
+const props: Props = ref( {
     height: '640px',
     placeholder: '请输入内容',
-    content: '',
+    markdownContent: '',
+    content: ''
 })
 const emit = defineEmits<EmitEvent>()
 const markdownContent = computed({
     get() {
-        return props.content
+        return props.markdownContent
     },
     set(value: string) {
         emit('update:textValue', value)
+    }
+})
+
+const content = computed({
+    get() {
+        return props.content
+    },
+    set(value: string) {
+        emit('update:htmlValue', value)
     }
 })
 
@@ -35,8 +45,8 @@ const markdownContent = computed({
 const handleChange = (text: string, html: string): void => {
     // console.log(JSON.stringify(text))
     // 如果有需要这些值，可以传回给父组件
-    // emit('update:textValue', text)
-    emit('update:htmlValue', html)
+    markdownContent.value = text
+    content.value = html
 }
 
 </script>
@@ -45,7 +55,7 @@ const handleChange = (text: string, html: string): void => {
     <v-md-editor
         :placeholder="props.placeholder"
         :disabled-menus="[]"
-        v-model="markdownContent"
+        v-model="props.markdownContent"
         :height="props.height"
         @change="handleChange"></v-md-editor>
 </template>

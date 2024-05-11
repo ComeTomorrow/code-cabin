@@ -49,4 +49,21 @@ export interface LoginResult {
      */
     token_type?: string;
 }
-  
+
+/**
+ * 注册请求参数
+ */
+export interface RegisterData {
+    /**
+     * 用户名
+     */
+    username: string;
+    /**
+     * 密码
+     */
+    password: string;
+    /**
+     * 确认密码
+     */
+    againPassword: string;
+}

@@ -20,6 +20,20 @@ const routes =[
         name: '编辑',
         path:'/md',
         component: ()=> import('../../views/creative/EditArticle.vue'),
+    },
+    {
+        name: '创作中心',
+        path:'/creative',
+        component: ()=> import('../../views/creative/CreativeCenter.vue'),
+        children: [
+            { path: '/creative', component: ()=> import('../../views/creative/CreativeHome.vue') },
+            { path: '/creative/content_manage', component: ()=> import('../../views/creative/content/ContentManage.vue') },
+        ],
+    },
+    {
+        name: '测试页',
+        path:'/test',
+        component: ()=> import('../../views/test.vue'),
     }
 ]
 

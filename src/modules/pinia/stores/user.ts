@@ -2,17 +2,27 @@ import { defineStore } from 'pinia'
 import { registerApi, loginApi, logoutApi } from '../../../api/auth';
 // import { getUserInfoApi } from '@/api/system/user';
 import { resetRouter } from '../../router';
+import { ref } from 'vue'
 // import { store } from '@/store';
-import { getLocalStorage, setLocalStorage } from '../../../utils/storage'
-import { LoginData } from '../../../api/auth/types'
-// import { UserInfo } from '@/api/system/user/types';
+import { getLocalStorage, setLocalStorage, removeLocalStorage } from '../../../utils/storage'
+import { LoginData, RegisterData } from '../../../api/auth/types'
+import { UserInfo } from './type';
 import { TOKEN_KEY, SPACE_CHARACTER } from '../../constant'
 
 export const useUserStore = defineStore('user', () => {
-  // const user: UserInfo = {
-  //   roles: [],
-  //   perms: [],
-  // };
+  // 数据（state）
+  const userInfo: UserInfo = ref({
+    nickName: '',
+    userId: '',
+    accessToken: getLocalStorage(TOKEN_KEY),
+    roles: [],
+    permissions: [],
+  });
+
+  // 修改数据的方法（action）
+  const inc = () => {
+
+  }
 
   /**
    * 登录
@@ -24,8 +34,8 @@ export const useUserStore = defineStore('user', () => {
     return new Promise<void>((resolve, reject) => {
       loginApi(loginData)
         .then(({ data } : any) => {
-          const { token_type, access_token } = data;
-          setLocalStorage(TOKEN_KEY, SPACE_CHARACTER + access_token)   // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
+          const accessToken = data;
+          setLocalStorage(TOKEN_KEY, SPACE_CHARACTER + accessToken)   // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
           resolve();
         })
         .catch((error: any) => {
@@ -56,12 +66,15 @@ export const useUserStore = defineStore('user', () => {
   //   });
   // }
 
-  // user register
-  function register(loginData: LoginData) {
+  /**
+   * 
+   * @param registerData 
+   * @returns 
+   */
+  function register(registerData: RegisterData) {
     return new Promise<void>((resolve, reject) => {
-      registerApi(loginData)
+      registerApi(registerData)
         .then(() => {
-          setLocalStorage(TOKEN_KEY, '')
           location.reload(); // 清空路由
           resolve();
         })
@@ -76,7 +89,7 @@ export const useUserStore = defineStore('user', () => {
     return new Promise<void>((resolve, reject) => {
       logoutApi()
         .then(() => {
-          setLocalStorage(TOKEN_KEY, '')
+          removeLocalStorage(TOKEN_KEY)
           location.reload(); // 清空路由
           resolve();
         })
@@ -95,10 +108,12 @@ export const useUserStore = defineStore('user', () => {
     });
   }
 
+  // 以对象形式返回
   return {
-    // user,
+    // userInfo,
     login,
     // getUserInfo,
+    register,
     logout,
     resetToken,
   };

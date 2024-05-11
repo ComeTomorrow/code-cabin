@@ -1,27 +1,20 @@
-import request from '../../modules/https';
+import https from '../../modules/https';
 import { AxiosPromise } from 'axios';
-import { LoginData, LoginResult } from './types';
+import { LoginData, RegisterData, LoginResult } from './types';
+
+https.defaults.baseURL=import.meta.env.VITE_AUTH_APP_API_URL + import.meta.env.VITE_AUTH_APP_PORT;
 
 /**
  * 注册API
  *
- * @param data {LoginData}
+ * @param data {RegisterData}
  * @returns
  */
-export function registerApi(data: LoginData): AxiosPromise<LoginResult> {
-    const formData = new FormData();
-    formData.append('username', data.username);
-    formData.append('password', data.password);
-    formData.append('nickName', data.nickName);
-    
-    return request({
+export function registerApi(data: RegisterData): AxiosPromise<LoginResult> {
+    return https({
         url: '/api/auth/register',
-        method: 'post',
-        data: formData,
-        // headers: {
-        //   'Content-Type': 'multipart/form-data',
-        //   Authorization: 'Basic bWFsbC1hZG1pbjoxMjM0NTY=', // 客户端信息Base64明文：mall-admin:123456
-        // },
+        method: 'put',
+        data: data,
     });
 }
 
@@ -36,14 +29,10 @@ export function loginApi(data: LoginData): AxiosPromise<LoginResult> {
     formData.append('username', data.username);
     formData.append('password', data.password);
     
-    return request({
+    return https({
         url: '/api/auth/login',
         method: 'post',
-        data: formData,
-        // headers: {
-        //   'Content-Type': 'multipart/form-data',
-        //   Authorization: 'Basic bWFsbC1hZG1pbjoxMjM0NTY=', // 客户端信息Base64明文：mall-admin:123456
-        // },
+        data: formData
     });
 }
 
@@ -51,7 +40,7 @@ export function loginApi(data: LoginData): AxiosPromise<LoginResult> {
  * 注销API
  */
 export function logoutApi() {
-    return request({
+    return https({
         url: '/youlai-system/api/v1/users/logout',
         method: 'delete',
     });
