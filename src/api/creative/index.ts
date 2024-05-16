@@ -11,3 +11,11 @@ export function saveArticle(data: ArticleData): AxiosPromise<ArticleResult> {
         data: data,
     });
 }
+
+export function getArticles(data: ArticleData): AxiosPromise<ArticleResult> {
+    return https({
+        url: '/app-api/v1/content/article/page',
+        method: 'get',
+        data: data,
+    });
+}
