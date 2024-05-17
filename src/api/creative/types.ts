@@ -55,5 +55,9 @@ export interface ArticleData {
  * 文章响应
  */
 export interface ArticleResult {
+
+    list: Record<string, string>;
+
+    total: number;
 }
   

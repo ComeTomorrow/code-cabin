@@ -143,9 +143,9 @@ const rules: Record<string, Rule[]> = {
     </div>
 </template>
 
-<style lang='less'>
+<style lang='less' scoped>
 body {
-    background: linear-gradient(200deg, #f3e7e9, #e3eeff)
+    background: linear-gradient(200deg, #f3e7e9, #e3eeff);
 }
 
 .entire {

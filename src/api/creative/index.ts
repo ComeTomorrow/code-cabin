@@ -12,10 +12,6 @@ export function saveArticle(data: ArticleData): AxiosPromise<ArticleResult> {
     });
 }
 
-export function getArticles(data: ArticleData): AxiosPromise<ArticleResult> {
-    return https({
-        url: '/app-api/v1/content/article/page',
-        method: 'get',
-        data: data,
-    });
+export function getArticles(params: ArticleData): AxiosPromise<ArticleResult> {
+    return https.get('/app-api/v1/content/article/page', {params: params});
 }

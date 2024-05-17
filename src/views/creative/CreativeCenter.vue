@@ -112,7 +112,6 @@ const handleClick: MenuProps['onClick'] = e => {
 
 <style lang="less" scoped>
 .ant-menu {
-    height: 737px;
     background: #efefef;
 }
 
@@ -120,10 +119,6 @@ const handleClick: MenuProps['onClick'] = e => {
     border: 0px;
 }
 
-.ant-card {
-    margin: 30px;
-    height: 600px;
-}
 .ant-btn{
     width: 100%;
 }
@@ -137,5 +132,11 @@ const handleClick: MenuProps['onClick'] = e => {
 
 .ant-layout-content {
     background: #efefef;
+    .ant-card {
+        margin: 30px;
+        border-radius: 0;
+    }
 }
+
+
 </style>
