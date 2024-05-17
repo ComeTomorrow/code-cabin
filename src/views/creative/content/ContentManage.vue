@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { ref, h, computed, CSSProperties } from 'vue'
-import { getArticles } from '../../../api/creative/index'
+import { getArticles, deleteArticle } from '../../../api/creative/index'
 import { FundFilled, EditFilled, EyeFilled, DeleteFilled } from '@ant-design/icons-vue'
 
 const loading = ref(true)
@@ -8,6 +8,8 @@ const loading = ref(true)
 const activeKey = ref('1')
 
 const listData: Record<string, string>[] = ref()
+
+const open: boolean = ref(false);
 
 const getArticleList = (data:any): void => {
     getArticles(data).then(res => {
@@ -20,6 +22,19 @@ const getArticleList = (data:any): void => {
     }).finally(() => {
         loading.value = false;
     });
+}
+
+const delArticle = (id: number): void => {
+    open.value = true;
+    // deleteArticle(id).then(res => {
+    //     if(res.data != null){
+    //         console.log(res)
+    //     }
+    // }).catch(() => {
+    //     loading.value = false;
+    // }).finally(() => {
+    //     loading.value = false;
+    // });
 }
 
 getArticleList({})
@@ -45,10 +60,10 @@ setTimeout(function(){
                     <template #renderItem="{ item }">
                         <a-list-item key="item.title">
                             <template #actions>
-                                <a-button shape="circle" :icon="h(FundFilled)" />
-                                <a-button shape="circle" :icon="h(EyeFilled)" />
-                                <a-button shape="circle" :icon="h(EditFilled)" />
-                                <a-button shape="circle" :icon="h(DeleteFilled)" />
+                                <a-button type="text" shape="circle" size="small" :icon="h(FundFilled)" />
+                                <a-button type="text" shape="circle" size="small" :icon="h(EyeFilled)" />
+                                <a-button type="text" shape="circle" size="small" :icon="h(EditFilled)" />
+                                <a-button type="text" danger shape="circle" size="small" :icon="h(DeleteFilled)" @click="delArticle(item.id)"/>
                             </template>
                             
                             <template #extra>
@@ -68,6 +83,11 @@ setTimeout(function(){
                             </a-list-item-meta>
                         </a-list-item>
                     </template>
+                    <a-modal v-model:open="open" title="Modal" ok-text="确认" cancel-text="取消" @ok="hideModal">
+                        <p>Bla bla ...</p>
+                        <p>Bla bla ...</p>
+                        <p>Bla bla ...</p>
+                    </a-modal>
                 </a-list>
             </a-tab-pane>
             <a-tab-pane key="2" tab="下载">Content of Tab Pane 2</a-tab-pane>
@@ -90,6 +110,13 @@ setTimeout(function(){
     }
     :deep(.ant-list-item-meta) {
         margin-block-end: 10px;
+        .ant-list-item-meta-title {
+            margin-block-end: 10px;
+            font-size: 18.11px;
+        }
+        .ant-list-item-meta-description{
+            font-size: 12px;
+        }
     }
 }
 

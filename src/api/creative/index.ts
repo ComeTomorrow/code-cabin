@@ -15,3 +15,8 @@ export function saveArticle(data: ArticleData): AxiosPromise<ArticleResult> {
 export function getArticles(params: ArticleData): AxiosPromise<ArticleResult> {
     return https.get('/app-api/v1/content/article/page', {params: params});
 }
+
+export function deleteArticle(id: number): AxiosPromise<ArticleResult> {
+    return https.delete('/app-api/v1/content/article/delete/' + id);
+}
+
