@@ -5,11 +5,7 @@ import { ArticleData, ArticleResult } from './types';
 https.defaults.baseURL=import.meta.env.VITE_BLOGS_APP_API_URL + import.meta.env.VITE_BLOGS_APP_PORT;
 
 export function saveArticle(data: ArticleData): AxiosPromise<ArticleResult> {
-    return https({
-        url: '/app-api/v1/content/article/save',
-        method: 'post',
-        data: data,
-    });
+    return https.post('/app-api/v1/content/article/save', {data: data});
 }
 
 export function getArticles(params: ArticleData): AxiosPromise<ArticleResult> {
@@ -20,3 +16,6 @@ export function deleteArticle(id: number): AxiosPromise<ArticleResult> {
     return https.delete('/app-api/v1/content/article/delete/' + id);
 }
 
+export function getArticleContent(id: number): AxiosPromise<ArticleResult> {
+    return https.get('/app-api/v1/content/article/get/' + id);
+}

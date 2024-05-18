@@ -98,10 +98,12 @@ const handleClick: MenuProps['onClick'] = e => {
         <a-layout-header>创作中心</a-layout-header>
         <a-layout>
             <a-layout-sider>
-                <a-button type="primary">发布</a-button>
-                <a-menu v-model:openKeys="state.openKeys" v-model:selectedKeys="state.selectedKeys" 
-                    mode="inline" :inline-collapsed="state.collapsed" :items="items" @click="handleClick">
-                </a-menu>
+                <div class="menu">
+                    <a-button class="release">发布</a-button>
+                    <a-menu v-model:openKeys="state.openKeys" v-model:selectedKeys="state.selectedKeys" 
+                        mode="inline" :inline-collapsed="state.collapsed" :items="items" @click="handleClick">
+                    </a-menu>
+                </div>
             </a-layout-sider>
             <a-layout-content>
                 <router-view/>
@@ -111,19 +113,41 @@ const handleClick: MenuProps['onClick'] = e => {
 </template>
 
 <style lang="less" scoped>
-.ant-menu {
-    background: #efefef;
+.ant-layout{
+    aside {
+        flex: 0 0 250px !important; 
+        max-width: 300px !important; 
+        min-width: 200px !important; 
+        width: 250px !important;
+    }
 }
 
-.ant-menu-vertical {
-    border: 0px;
+.menu {
+    padding: 0 0 0 25px;
+
+    .ant-menu {
+        background: #efefef;
+    }
+    :deep(.ant-menu-root.ant-menu-inline) {
+        border-inline-end: 0;
+    }
+    .ant-menu-vertical {
+        border: 0px;
+    }
+    .ant-btn{
+        width: 60%;
+        margin: 0 auto;
+        background-color: #fc5531;
+        color: #fff;
+        border-radius: 50px;
+    }
 }
 
-.ant-btn{
-    width: 100%;
-}
 .ant-layout-sider{
     background: #efefef;
+    .release {
+        margin: 15px 35px;
+    }
 }
 
 .ant-layout-header {

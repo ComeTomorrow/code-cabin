@@ -46,7 +46,7 @@ const saveDraft = (): void => {
             message.success('保存成功')
             router.push(
                 {
-                    path: '/md',
+                    path: '/creative/md',
                     query: {
                         articleId: data.value.id,
                     },

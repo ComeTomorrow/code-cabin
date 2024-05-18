@@ -17,8 +17,13 @@ const routes =[
         component: ()=> import('../../views/in-website/Login.vue'),
     },
     {
+        name: '测试页',
+        path:'/blog/article/details',
+        component: ()=> import('../../views/blog/content/ArticleDetails.vue'),
+    },
+    {
         name: '编辑',
-        path:'/md',
+        path:'/creative/md',
         component: ()=> import('../../views/creative/EditArticle.vue'),
     },
     {
