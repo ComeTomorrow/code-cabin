@@ -17,7 +17,7 @@ const routes =[
         component: ()=> import('../../views/in-website/Login.vue'),
     },
     {
-        name: '测试页',
+        name: '详情',
         path:'/blog/article/details',
         component: ()=> import('../../views/blog/content/ArticleDetails.vue'),
     },
