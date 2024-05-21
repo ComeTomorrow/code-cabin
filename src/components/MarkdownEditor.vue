@@ -1,63 +1,46 @@
 <script lang="ts" setup>
-import { ref, computed } from 'vue'
-// import { getLang } from '@/utils/auth'
-// import enUS from '@kangc/v-md-editor/lib/lang/en-US'
-// import zhEn from '@kangc/v-md-editor/lib/lang/zh-CN'
-// const lang = getLang() === 'zh-cn' ? 'zh-CN' : 'en-US'
-// const langObj = getLang() === 'zh-cn' ? zhEn : enUS
-// VueMarkdownEditor.lang.use(lang, langObj)
-// ......上面这些是多语言配置，如果用不到切换语言请忽略 ......
-interface Props {
-    height?: string // 编辑器的高度
-    placeholder?: string
-    content: string
-}
-interface EmitEvent {
-    (e: 'update:textValue', params: string): void,
-    (e: 'update:htmlValue', params: string): void
-}
-const props: Props = ref( {
-    height: '640px',
-    placeholder: '请输入内容',
-    markdownContent: '',
-    content: ''
+import { ref, onMounted } from 'vue'
+// 1.1 引入Vditor 构造函数
+import Vditor from 'vditor'
+// 1.2 引入样式
+import 'vditor/dist/index.css';
+
+// 2. 获取DOM引用
+const vditor = ref()
+
+// 3. 在组件初始化时，就创建Vditor对象，并引用
+onMounted(() => {
+    vditor.value = new Vditor('vditor', options.value)
 })
-const emit = defineEmits<EmitEvent>()
-const markdownContent = computed({
-    get() {
-        return props.markdownContent
+
+const options = ref({
+    placeholder: '请在此处输入Markdown文本',
+    height: '80vh',
+    width: '100%',
+    theme: 'dark 2',
+    preview: {
+        theme: {
+            current: "ant-design"
+        },
+        hljs: {
+            current: "ant-design"
+        }
     },
-    set(value: string) {
-        emit('update:textValue', value)
-    }
-})
-
-const content = computed({
-    get() {
-        return props.content
+    focus(value: string){
+        console.log(value)
     },
-    set(value: string) {
-        emit('update:htmlValue', value)
+    keydown(event: KeyboardEvent){
+        if(event.key === 'Tab')
+        event.preventDefault(); // 阻止默认行为（如果需要）   
+        console.log(event.key)
     }
+
 })
-
-// 内容变化时触发的事件。text 为输入的内容，html 为解析之后的 html 字符串。
-const handleChange = (text: string, html: string): void => {
-    // console.log(JSON.stringify(text))
-    // 如果有需要这些值，可以传回给父组件
-    markdownContent.value = text
-    content.value = html
-}
-
 </script>
 
 <template>
-    <v-md-editor
-        :placeholder="props.placeholder"
-        :disabled-menus="[]"
-        v-model="props.markdownContent"
-        :height="props.height"
-        @change="handleChange"></v-md-editor>
+    <!-- 指定一个容器 -->
+    <div id="vditor"></div>
 </template>
 
 <style lang="less" scoped>
