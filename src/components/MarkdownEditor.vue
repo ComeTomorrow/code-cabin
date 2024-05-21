@@ -30,8 +30,22 @@ const options = ref({
         console.log(value)
     },
     keydown(event: KeyboardEvent){
-        if(event.key === 'Tab')
-        event.preventDefault(); // 阻止默认行为（如果需要）   
+        if(event.key === 'Tab'){
+            event.preventDefault(); // 阻止默认行为（如果需要）   
+            var editor = document.getElementById("vditor");
+            var doc = editor.ownerDocument.defaultView;
+            var sel = doc.getSelection();
+            var range = sel.getRangeAt(0);
+
+            var tabNode = document.createTextNode("\u00a0\u00a0\u00a0\u00a0");
+            range.insertNode(tabNode);
+
+            range.setStartAfter(tabNode);
+            range.setEndAfter(tabNode);
+            sel.removeAllRanges();
+            sel.addRange(range);
+        }
+        
         console.log(event.key)
     }
 
