@@ -17,7 +17,6 @@ const vditor = ref()
 // 3. 在组件初始化时，就创建Vditor对象，并引用
 onMounted(() => {
     vditor.value = new Vditor('vditor', options.value)
-    console.log(vditor.value.getValue())
 })
 
 const options = ref({
@@ -54,9 +53,11 @@ const options = ref({
     },
     input(value: string){
         emit('update:textValue', value)
-        console.log(value)
+        // console.log(value)
     },
-    getValue(){}
+    after: () => {
+        emit('update:textValue', vditor.value.getValue())
+    },
 })
 
 </script>
