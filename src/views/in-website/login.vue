@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import { ref } from 'vue';
 import { FormType } from './types'
-import { useUserStore } from '../../modules/pinia/stores/user'
+import { useUserStore } from '../../modules/pinia'
 import router from '../../modules/router';
 import type { Rule } from 'ant-design-vue/es/form'
 

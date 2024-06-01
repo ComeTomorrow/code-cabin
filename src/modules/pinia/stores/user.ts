@@ -30,7 +30,7 @@ export const useUserStore = defineStore('user', () => {
    * @param {LoginData}
    * @returns
    */
-  function login(loginData: LoginData) {
+  const login = (loginData: LoginData) => {
     return new Promise<void>((resolve, reject) => {
       loginApi(loginData)
         .then(({ data } : any) => {
@@ -71,7 +71,7 @@ export const useUserStore = defineStore('user', () => {
    * @param registerData 
    * @returns 
    */
-  function register(registerData: RegisterData) {
+  const register = (registerData: RegisterData) => {
     return new Promise<void>((resolve, reject) => {
       registerApi(registerData)
         .then(() => {
@@ -85,7 +85,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // user logout
-  function logout() {
+  const logout = () => {
     return new Promise<void>((resolve, reject) => {
       logoutApi()
         .then(() => {
@@ -100,7 +100,7 @@ export const useUserStore = defineStore('user', () => {
   }
 
   // remove token
-  function resetToken() {
+  const resetToken = () => {
     return new Promise<void>((resolve) => {
       localStorage.setItem(TOKEN_KEY, '');
       resetRouter();
@@ -117,9 +117,6 @@ export const useUserStore = defineStore('user', () => {
     logout,
     resetToken,
   };
+}, {
+  persist: true
 });
-
-// 非setup
-// export function useUserStoreHook() {
-//   return useUserStore(store);
-// }
