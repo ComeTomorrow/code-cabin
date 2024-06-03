@@ -42,24 +42,24 @@ const saveDraft = (): void => {
     if(router.currentRoute.value.query){
         data.value.id = router.currentRoute.value.query['articleId'];
     }
-    // generateDraft(data.value).then(res => {
-    //     if(res.data != null){
-    //         data.value.id = res.data
-    //         message.success('保存成功')
-    //         router.push(
-    //             {
-    //                 path: '/creative/md',
-    //                 query: {
-    //                     articleId: data.value.id,
-    //                 },
-    //             }
-    //         )
-    //     }
-    // }).catch(() => {
-    //     loading.value = false;
-    // }).finally(() => {
-    //     loading.value = false;
-    // });
+    generateDraft(data.value).then(res => {
+        if(res.data != null){
+            data.value.id = res.data
+            message.success('保存成功')
+            router.push(
+                {
+                    path: '/creative/md',
+                    query: {
+                        articleId: data.value.id,
+                    },
+                }
+            )
+        }
+    }).catch(() => {
+        loading.value = false;
+    }).finally(() => {
+        loading.value = false;
+    });
 }
 
 // const publishArticle = (): void => {
@@ -77,7 +77,7 @@ const saveDraft = (): void => {
             <!-- <a-button type="primary" @click="publishArticles">发布文章</a-button> -->
         </a-layout-header>
         <a-layout-content :style="{ marginTop: '64px' }">
-            <MarkdownEditor @update:textValue="getMarkdownContent" :content="data.content"/>
+            <MarkdownEditor @update:markdownValue="getMarkdownContent" @update:textValue="getContent" :content="data.content"/>
         </a-layout-content>
     </a-layout>
 </template>

@@ -7,6 +7,7 @@ import 'vditor/dist/index.css';
 
 interface EmitEvent {
     (e: 'update:textValue', params: string): void,
+    (e: 'update:markdownValue', params: string): void,
 }
 
 const emit = defineEmits<EmitEvent>()
@@ -53,10 +54,11 @@ const options = ref({
     },
     input(value: string){
         emit('update:textValue', value)
-        // console.log(value)
+        emit('update:markdownValue', value)
     },
     after: () => {
         emit('update:textValue', vditor.value.getValue())
+        emit('update:textValue', vditor.value.getHtml())
     },
 })
 
